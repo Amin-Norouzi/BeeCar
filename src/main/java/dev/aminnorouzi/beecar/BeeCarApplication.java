@@ -21,15 +21,12 @@ public class BeeCarApplication {
     @Bean
     public CommandLineRunner commandLineRunner(Bot bot) {
         return args -> {
-			try {
-				TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-				botsApi.registerBot(bot);
-			} catch (TelegramApiException e) {
-				System.out.println(e.getMessage());
-			}
-
-//            Client client = new JobinjaClient();
-//            client.getJobs();
+            try {
+                TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+                botsApi.registerBot(bot);
+            } catch (TelegramApiException e) {
+                System.out.println(e.getMessage()); // replace with logger
+            }
         };
     }
 }

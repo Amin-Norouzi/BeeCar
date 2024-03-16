@@ -1,10 +1,14 @@
 package dev.aminnorouzi.beecar.client;
 
 import dev.aminnorouzi.beecar.model.Job;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// TODO: Implement this client
+
+@Slf4j
 @Component
 public class JobvisionClient implements Client {
 

@@ -35,21 +35,7 @@ public class JobNotificationEventListener implements ApplicationListener<JobNoti
                     job.getTitle(), job.getCompany(), job.getLocation(), job.getContract(), job.getWebsite(), job.getDate()
             );
 
-            SendMessage message = new SendMessage();
-            message.setText(text);
-            message.disableWebPagePreview();
-            message.setParseMode(ParseMode.HTML);
-
-            InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText("مشاهده");
-            button.setUrl(job.getUrl());
-
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(List.of(
-                    List.of(button)
-            ));
-
-            message.setReplyMarkup(keyboard);
-            message.setChatId(bot.getUser());
+            SendMessage message = getMessage(job, text);
 
             try {
                 bot.execute(message);
@@ -57,5 +43,24 @@ public class JobNotificationEventListener implements ApplicationListener<JobNoti
                 log.error(exception.getMessage(), exception);
             }
         }
+    }
+
+    private SendMessage getMessage(Job job, String text) {
+        SendMessage message = new SendMessage();
+        message.setText(text);
+        message.disableWebPagePreview();
+        message.setParseMode(ParseMode.HTML);
+
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("مشاهده");
+        button.setUrl(job.getUrl());
+
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(List.of(
+                List.of(button)
+        ));
+
+        message.setReplyMarkup(keyboard);
+        message.setChatId(bot.getUser());
+        return message;
     }
 }
