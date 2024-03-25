@@ -26,21 +26,27 @@ public class JobNotificationEventListener implements ApplicationListener<JobNoti
     private final JobService service;
     private final Bot bot;
 
+    private Integer counter = 1;
+
     @Override
     public void onApplicationEvent(JobNotificationEvent event) {
-        List<Job> jobs = service.checkup(event.getJobs());
+        if (counter > 1)  {
+            counter++;
 
-        for (Job job : jobs) {
-            String text = template.formatted(
-                    job.getTitle(), job.getCompany(), job.getLocation(), job.getContract(), job.getWebsite(), job.getDate()
-            );
+            List<Job> jobs = service.checkup(event.getJobs());
 
-            SendMessage message = getMessage(job, text);
+            for (Job job : jobs) {
+                String text = template.formatted(
+                        job.getTitle(), job.getCompany(), job.getLocation(), job.getContract(), job.getWebsite(), job.getDate()
+                );
 
-            try {
-                bot.execute(message);
-            } catch (TelegramApiException exception) {
-                log.error(exception.getMessage(), exception);
+                SendMessage message = getMessage(job, text);
+
+                try {
+                    bot.execute(message);
+                } catch (TelegramApiException exception) {
+                    log.error(exception.getMessage(), exception);
+                }
             }
         }
     }

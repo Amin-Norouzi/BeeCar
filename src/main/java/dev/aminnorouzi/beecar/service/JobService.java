@@ -8,17 +8,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class JobService {
 
-    private final List<Job> jobs = new ArrayList<>();
+    private final Map<String, Job> jobs = new HashMap<>();
 
     private final Set<Client> clients = Set.of(
             new JobinjaClient(),
@@ -37,10 +34,10 @@ public class JobService {
         Iterator<Job> iterator = entries.iterator();
         while (iterator.hasNext()) {
             Job entry = iterator.next();
-            if (jobs.contains(entry)) {
+            if (jobs.containsKey(entry.getUrl())) {
                 iterator.remove();
             } else {
-                jobs.add(entry);
+                jobs.put(entry.getUrl(), entry);
             }
         }
 
