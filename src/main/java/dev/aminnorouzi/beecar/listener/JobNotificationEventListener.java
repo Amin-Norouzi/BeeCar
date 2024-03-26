@@ -31,8 +31,6 @@ public class JobNotificationEventListener implements ApplicationListener<JobNoti
     @Override
     public void onApplicationEvent(JobNotificationEvent event) {
         if (counter > 1)  {
-            counter++;
-
             List<Job> jobs = service.checkup(event.getJobs());
 
             for (Job job : jobs) {
@@ -49,6 +47,8 @@ public class JobNotificationEventListener implements ApplicationListener<JobNoti
                 }
             }
         }
+
+        counter++;
     }
 
     private SendMessage getMessage(Job job, String text) {
